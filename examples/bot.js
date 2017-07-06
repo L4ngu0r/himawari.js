@@ -2,7 +2,11 @@ const himawari = require('../index');
 
 function getNewDate() {
   const date = new Date();
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getHours()}h${date.getMinutes()}`;
+
+  const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+  const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${hours}h${minutes}`;
 }
 
 console.log(`Script launch at ${getNewDate()}`);
@@ -15,15 +19,14 @@ function getHimawariImage() {
     outfile: `/earth/earth-${imgDate}.jpg`,
     date: 'latest',
     success: function() {
-      console.log("Complete!");
-      //process.exit();
+      console.log("Processing complete !");
     },
     error: function(e) {
       console.error("An error occured : ");
       console.log(e);
     },
     chunk: function (info) {
-      console.log('COMPLETE', (info.part + '/' + info.total), '(' + ((info.part / info.total) * 100).toFixed(0) + '%' + ')');
+      console.log('Chunk complete : ', (info.part + '/' + info.total), '(' + ((info.part / info.total) * 100).toFixed(0) + '%' + ')');
     }
   });
 }
